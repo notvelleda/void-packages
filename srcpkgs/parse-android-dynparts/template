@@ -1,0 +1,11 @@
+pkgname=parse-android-dynparts
+version=1.0
+revision=1
+short_desc="A tool to parse Android super partition layout"
+maintainer="June Carlson <notvelleda@gmail.com>"
+license="Apache-2.0"
+homepage="https://github.com/droidian/parse-android-dynparts"
+distfiles="https://github.com/droidian/parse-android-dynparts/archive/b776ff276f20b91c8df4e2c84cf314ba7b7a3fb5.zip"
+checksum="5aa574dfebd3e9a14505976c5a415802c33dc032aa8b96c3cf142a9b85743d4f"
+build_style=cmake
+makedepends="openssl-devel"

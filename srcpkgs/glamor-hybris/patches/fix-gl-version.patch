@@ -1,0 +1,11 @@
+--- a/configure.ac
++++ b/configure.ac
+@@ -60,7 +60,7 @@ sdkdir=`$PKG_CONFIG --variable=sdkdir xorg-server`
+ AC_SUBST([sdkdir])
+ 
+ LIBDRM="libdrm >= 2.4.23"
+-LIBGL="gl >= 7.1.0"
++LIBGL="gl >= 1.2"
+ LIBPIXMAN="pixman-1 >= 0.21.8"
+ LIBEGL="egl"
+ LIBGLESV2="glesv2"

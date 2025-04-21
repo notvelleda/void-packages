@@ -1,0 +1,206 @@
+pkgname=libhybris
+version=1.0
+revision=1
+short_desc="Library for running bionic-based HW adaptations on glibc systems"
+maintainer="June Carlson <notvelleda@gmail.com>"
+license="Apache-2.0"
+homepage="https://github.com/notvelleda/libhybris"
+distfiles="https://github.com/notvelleda/libhybris/archive/bcca7bad7945ca5b46deda74593d5ed3e98f1e3e.zip"
+checksum="0367679e0d61bff01de1469e46f2f68a3c6e67e719ec3d5d325c96eca42f1e17"
+hostmakedepends="autoconf automake libtool pkg-config wayland-devel android-headers python3"
+makedepends="wayland wayland-devel libglvnd-devel"
+depends="libglvnd"
+
+do_configure() {
+    ANDROID_HEADERS_PATH="/usr/include/android"
+    DEFAULT_CONFIGURATION="--enable-wayland --with-android-headers=${ANDROID_HEADERS_PATH} --enable-property-cache --enable-experimental --prefix=/usr --enable-mesa --enable-glvnd"
+    CFLAGS="-Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-function-declaration" # won't compile otherwise
+
+    if [ -n "${CROSS_BUILD}" ]; then
+        CROSS_CONFIGURATION="--host=`basename ${XBPS_CROSS_BASE}`"
+    fi
+
+    if [ "${XBPS_TARGET_MACHINE}" = "armv6l" -o "${XBPS_TARGET_MACHINE}" = "armv7l" ]; then
+        ARCH_CONFIGURATION="--enable-arch=arm --enable-mali-quirks --enable-adreno-quirks"
+    fi
+    if [ "${XBPS_TARGET_MACHINE}" = "aarch64" ]; then
+        ARCH_CONFIGURATION="--enable-arch=arm64 --enable-mali-quirks --enable-adreno-quirks"
+    fi
+    if [ "${XBPS_TARGET_MACHINE}" = "i686" -o "${XBPS_TARGET_MACHINE}" = "x86_64" ]; then
+        ARCH_CONFIGURATION="--enable-arch=x86"
+    fi
+
+    if [ -n "${XBPS_DEBUG_PKGS}" ]; then
+        DEBUG_CONFIGURATION="--enable-debug"
+    fi
+
+    (
+        cd hybris
+        ./autogen.sh CFLAGS="${CFLAGS}" ${CROSS_CONFIGURATION} ${DEFAULT_CONFIGURATION} ${ARCH_CONFIGURATION} ${DEBUG_CONFIGURATION}
+    )
+}
+
+do_build() {
+    make -C hybris ${makejobs}
+}
+
+do_install() {
+    make DESTDIR=${PKGDESTDIR} -C hybris install
+
+    # these files are all supplied by libglvnd
+    rm -r ${PKGDESTDIR}/usr/include/EGL/egl.h
+    rm -r ${PKGDESTDIR}/usr/include/EGL/eglext.h
+    rm -r ${PKGDESTDIR}/usr/include/EGL/eglmesaext.h
+    rm -r ${PKGDESTDIR}/usr/include/EGL/eglplatform.h
+    rm -r ${PKGDESTDIR}/usr/include/GLES
+    rm -r ${PKGDESTDIR}/usr/include/GLES2
+    rm -r ${PKGDESTDIR}/usr/include/GLES3
+    rm -r ${PKGDESTDIR}/usr/include/KHR
+
+    # these files are supplied by OpenCL-Headers
+    rm -r ${PKGDESTDIR}/usr/include/CL
+}
+
+libandroid-properties_package() {
+    short_desc="Library to allow programs to get, set and list Android properties"
+    # TODO: does this depend on libhybris?
+
+    pkg_install() {
+        vmove "usr/lib/libandroid-properties.so.*"
+    }
+}
+
+libandroid-properties-devel_package() {
+    short_desc="Development header files for libandroid-properties"
+
+    pkg_install() {
+        vmove usr/lib/libandroid-properties.so
+        vmove usr/lib/pkgconfig/libandroid-properties.pc
+        vmove usr/include/hybris/properties
+    }
+}
+
+libmedia_package() {
+    short_desc="Library to provide access to the Android Media HAL"
+    # TODO: does this depend on libhybris?
+
+    pkg_install() {
+        vmove "usr/lib/libmedia.so.*"
+    }
+}
+
+libmedia-devel_package() {
+    short_desc="Development files for libmedia"
+
+    pkg_install() {
+        vmove usr/lib/libmedia.so
+        vmove usr/lib/pkgconfig/libmedia.pc
+        vmove usr/include/hybris/media
+    }
+}
+
+libhardware_package() {
+    short_desc="Library to provide access to the Android libhardware HAL"
+    # TODO: does this depend on libhybris?
+
+    pkg_install() {
+        vmove "usr/lib/libhardware.so.*"
+    }
+}
+
+libhardware-devel_package() {
+    short_desc="Development files for libhardware"
+
+    pkg_install() {
+        vmove usr/lib/libhardware.so
+        vmove usr/lib/pkgconfig/libhardware.pc
+    }
+}
+
+libhybris-common_package() {
+    short_desc="Common library that contains the Android linker and custom hooks"
+    # TODO: does this depend on libhybris?
+
+    pkg_install() {
+        vmove "usr/lib/libhybris-common.so.*"
+        vmove "usr/lib/libhybris/linker/*.so"
+    }
+}
+
+libhybris-common-devel_package() {
+    short_desc="Development files for libhybris-common"
+
+    pkg_install() {
+        vmove usr/lib/libhybris-common.so
+        vmove usr/include/hybris/common
+    }
+}
+
+libhybris-devel_package() {
+    short_desc="Development headers and libraries for libhybris"
+
+    pkg_install() {
+        vmove usr/lib/libEGL_libhybris.so
+        vmove usr/lib/libGLESv1_CM_libhybris.so
+        vmove usr/lib/libGLESv2_libhybris.so
+        vmove usr/lib/libOpenCL.so
+        vmove usr/lib/libnfc_ndef_nxp.so
+        vmove usr/lib/libhybris-eglplatformcommon.so
+        vmove usr/lib/libhybris-hwcomposerwindow.so
+        vmove usr/lib/libcamera.so
+        vmove usr/lib/libgralloc.so
+        vmove usr/lib/libhwc2.so
+        vmove usr/lib/libis.so
+        vmove usr/lib/libnfc_nxp.so
+        vmove usr/lib/libsf.so
+        vmove usr/lib/libsync.so
+        vmove usr/lib/libui.so
+        vmove usr/lib/libvibrator.so
+        vmove usr/lib/libwifi.so
+        vmove usr/lib/pkgconfig/hwcomposer-egl.pc
+        vmove usr/lib/pkgconfig/hybris-egl-platform.pc
+        vmove usr/lib/pkgconfig/libcamera.pc
+        vmove usr/lib/pkgconfig/libgralloc.pc
+        vmove usr/lib/pkgconfig/libhwc2.pc
+        vmove usr/lib/pkgconfig/libis.pc
+        vmove usr/lib/pkgconfig/libnfc_nxp.pc
+        vmove usr/lib/pkgconfig/libsf.pc
+        vmove usr/lib/pkgconfig/libsync.pc
+        vmove usr/lib/pkgconfig/libvibrator.pc
+        vmove usr/lib/pkgconfig/libwifi.pc
+        vmove usr/lib/pkgconfig/OpenCL.pc
+        vmove usr/lib/pkgconfig/libnfc_ndef_nxp.pc
+        vmove usr/include/EGL
+        vmove usr/include/hybris/input
+        vmove usr/include/hybris/camera
+        vmove usr/include/hybris/gralloc
+        vmove usr/include/hybris/hwc2
+        vmove usr/include/hybris/eglplatformcommon
+        vmove usr/include/hybris/surface_flinger
+        vmove usr/include/hybris/ui
+        vmove usr/include/hybris/hwcomposerwindow
+        vmove usr/include/hybris/dlfcn
+        vmove usr/include/hybris/platformcommon
+    }
+}
+
+libhybris-utils_package() {
+    short_desc="Utilities to assist working with the Android HW abstraction layer"
+    depends="libhybris-common"
+
+    pkg_install() {
+        vmove usr/bin/getprop
+        vmove usr/bin/setprop
+        vinstall utils/load_sym_files.py 0644 usr/share/libhybris/gdb/
+    }
+}
+
+libhybris-test_package() {
+    short_desc="Tests for libhybris"
+    # TODO: does this depend on libhybris?
+
+    pkg_install() {
+        vmove "/usr/bin/test_*"
+    }
+}
+

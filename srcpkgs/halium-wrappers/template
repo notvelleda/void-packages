@@ -1,0 +1,21 @@
+pkgname=halium-wrappers
+version=1.0
+revision=1
+short_desc="Convenience wrappers to Android utilities"
+maintainer="June Carlson <notvelleda@gmail.com>"
+license="BSD-3-clause"
+homepage="https://github.com/notvelleda/halium-wrappers"
+distfiles="https://github.com/notvelleda/halium-wrappers/archive/dea180dfd9161216cce37ab3beef9eb8cd8a3336.zip"
+checksum="5aabab62cba5e6ff54034ddbb66e18771defa0daa5d47944fe1745f13b46ab41"
+build_style=gnu-makefile
+hostmakedepends="pkg-config"
+makedepends="libhybris-common libandroid-properties libandroid-properties-devel libhybris libhybris-devel libhybris-common-devel zlib-devel libglvnd-devel"
+make_install_args="TRIPLET="
+
+libtls-padding_package() {
+    short_desc="Library that reserves some space into the Thread Local Storage"
+
+    pkg_install() {
+        vmove usr/lib/libtls-padding.so
+    }
+}

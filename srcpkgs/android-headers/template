@@ -1,0 +1,10 @@
+pkgname=android-headers
+version=1.0
+revision=1
+short_desc="Android Platform Headers from AOSP releases"
+maintainer="June Carlson <notvelleda@gmail.com>"
+license="Apache-2.0"
+homepage="https://github.com/gemian/android-headers"
+distfiles="https://github.com/gemian/android-headers/archive/136dc150030252fc97d333ce251dbc609d1ff268.zip"
+checksum="e0a6780286e1c89801f92dae44a165fade7b743bc69beee6954b9383cda796ab"
+build_style=gnu-makefile

@@ -1,0 +1,24 @@
+pkgname=lxc-android
+version=1.0
+revision=1
+short_desc="LXC configuration for starting Android"
+maintainer="June Carlson <notvelleda@gmail.com>"
+license="GPL-2.0-or-later"
+homepage="https://github.com/notvelleda/lxc-android"
+distfiles="https://github.com/notvelleda/lxc-android/archive/05f15f8b1df74409005b97ff2eeb8f9a9a24d7c6.zip"
+checksum="2bc2d299307bf6c8e00a59854c424c77c99fdbfc3ad3d58dad7460a91da17a71"
+depends="lxc lxcfs parse-android-dynparts halium-wrappers libhybris-utils"
+noverifyrdeps=yes
+nostrip=yes
+ignore_elf_dirs="/usr/share/astroslide-overlay"
+
+do_install() {
+    vmkdir etc
+    vcopy etc /
+
+    vmkdir usr
+    vcopy usr /
+
+    vmkdir var
+    vcopy var /
+}

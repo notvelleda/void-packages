@@ -1,0 +1,33 @@
+pkgname=xf86-video-hwcomposer
+version=1.0
+revision=1
+short_desc="Xorg hwcomposer video driver"
+maintainer="June Carlson <notvelleda@gmail.com>"
+license="XFree86-1.1" # it's actually 1.0 but the fuckass spdx list doesn't have that. idk which of this, the x11 license, and the mit license would be the best fit
+homepage="https://github.com/gemian/xf86-video-hwcomposer"
+distfiles="https://github.com/gemian/xf86-video-hwcomposer/archive/163cd71436416f4303a99c292aab85354f1f67f8.zip"
+checksum="5c2443c6eaa02639d69dc5b615c0614a4c3b104e82598830836a8efbad06b1f9"
+hostmakedepends="autoconf automake libtool pkg-config xorg-util-macros xorg-server-devel android-headers libhardware-devel drihybris-devel"
+makedepends="xorg-server xorg-server-devel xorg-util-macros xorgproto glamor-hybris-devel android-headers libhybris libhybris-devel libhardware libhardware-devel drihybris drihybris-devel"
+
+do_configure() {
+    if [ -n "${CROSS_BUILD}" ]; then
+        CROSS_CONFIGURATION="--host=`basename ${XBPS_CROSS_BASE}`"
+    fi
+
+    if [ -n "${XBPS_DEBUG_PKGS}" ]; then
+        DEBUG_FLAGS="-g"
+    fi
+
+    CONFIG_OPTIONS="--enable-drihybris --enable-glamor-hybris --prefix=/usr"
+
+    ./autogen.sh CFLAGS="-I/usr/include/android -I/usr/include/X11/extensions ${DEBUG_FLAGS}" CPPFLAGS="-I/usr/include/android -DMESA_EGL_NO_X11_HEADERS" ${CONFIG_OPTIONS} ${CROSS_CONFIGURATION}
+}
+
+do_build() {
+    make LDFLAGS="-ldrihybris" ${makejobs}
+}
+
+do_install() {
+    make DESTDIR=${PKGDESTDIR} install
+}
