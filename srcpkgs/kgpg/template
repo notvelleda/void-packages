@@ -1,6 +1,6 @@
 # Template file for 'kgpg'
 pkgname=kgpg
-version=24.12.3
+version=25.12.2
 revision=1
 build_style=cmake
 configure_args="-DBUILD_TESTING=OFF -DKF6_HOST_TOOLING=/usr/lib/cmake
@@ -22,7 +22,7 @@ license="GPL-2.0-only"
 homepage="https://kde.org/applications/en/utilities/org.kde.kgpg"
 changelog="https://kde.org/announcements/changelogs/gear/${version}/#kgpg"
 distfiles="${KDE_SITE}/release-service/${version}/src/${pkgname}-${version}.tar.xz"
-checksum=6bc02dfd2be442d49aff0f81703fc7add5122d05680a850b80e6317bbe404781
+checksum=7470c23193f7b04890f96739aec7f1772c5ddfc1722ad36a021de006a688c6d4
 
 do_check() {
 	cd build

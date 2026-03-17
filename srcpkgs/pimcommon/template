@@ -1,6 +1,6 @@
 # Template file for 'pimcommon'
 pkgname=pimcommon
-version=24.12.3
+version=25.12.2
 revision=1
 build_style=cmake
 configure_args="-DBUILD_TESTING=OFF -DKF6_HOST_TOOLING=/usr/lib/cmake
@@ -17,6 +17,7 @@ makedepends="kf6-ktextwidgets-devel kf6-kcmutils-devel kf6-karchive-devel
  kf6-kservice-devel kf6-ktexttemplate-devel kf6-kwidgetsaddons-devel
  kf6-kxmlgui-devel kf6-purpose-devel kmime6-devel libkdepim-devel kimap-devel
  kpimtextedit-devel ktextaddons-devel kf6-akonadi-devel akonadi-contacts-devel
+ plasma-activities-devel libkleo
  kldap-devel akonadi-search-devel"
 depends="qt6-plugin-networkinformation"
 short_desc="Common libraries for KDE PIM"
@@ -24,7 +25,7 @@ maintainer="John <me@johnnynator.dev>"
 license="GPL-2.0-or-later, LGPL-2.1-or-later"
 homepage="https://community.kde.org/KDE_PIM"
 distfiles="${KDE_SITE}/release-service/${version}/src/pimcommon-${version}.tar.xz"
-checksum=b50eca817359359fcbe8c067813c764bc8e419b59d608ff69de10b4f7ff95b2f
+checksum=7da324710ea6077fa247ec04db666c172352ba0e61f1df9aa07ab7109ac5290b
 
 pimcommon-devel_package() {
 	depends="${sourcepkg}>=${version}_${revision} ${makedepends}"

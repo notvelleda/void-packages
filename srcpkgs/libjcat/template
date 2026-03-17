@@ -1,14 +1,14 @@
 # Template file for 'libjcat'
 pkgname=libjcat
 version=0.2.1
-revision=1
+revision=2
 build_style=meson
 build_helper="gir"
 hostmakedepends="gnutls-tools pkg-config vala"
 makedepends="json-glib-devel gnutls-devel gpgme-devel"
 checkdepends="gnupg"
 short_desc="Library for reading and writing Jcat files"
-maintainer="marmeladema <xademax@gmail.com>"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="LGPL-2.1-or-later"
 homepage="https://github.com/hughsie/libjcat"
 distfiles="https://github.com/hughsie/libjcat/archive/${version}.tar.gz"

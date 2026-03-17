@@ -1,6 +1,6 @@
 # Template file for 'libgravatar'
 pkgname=libgravatar
-version=24.12.3
+version=25.12.2
 revision=1
 build_style=cmake
 configure_args="-DBUILD_TESTING=OFF -DKF6_HOST_TOOLING=/usr/lib/cmake
@@ -15,7 +15,7 @@ maintainer="John <me@johnnynator.dev>"
 license="GPL-2.0-or-later, LGPL-2.1-or-later"
 homepage="https://community.kde.org/KDE_PIM"
 distfiles="${KDE_SITE}/release-service/${version}/src/libgravatar-${version}.tar.xz"
-checksum=44d9f1bd60ea4fc70956882d667c32b4df001b5cdee4a083e85eacf6a8467c0d
+checksum=086f3a32695442b49a2716daa354752630e2ac055f9810988a423be51ba5d037
 
 libgravatar-devel_package() {
 	depends="${sourcepkg}>=${version}_${revision}"

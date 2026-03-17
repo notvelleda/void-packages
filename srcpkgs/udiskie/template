@@ -1,19 +1,19 @@
 # Template file for 'udiskie'
 pkgname=udiskie
-version=2.5.3
+version=2.6.2
 revision=1
-build_style=python3-module
+build_style=python3-pep517
 hostmakedepends="gettext asciidoc python3-setuptools"
 depends="gtk+3 libnotify python3-docopt python3-gobject python3-keyutils
  python3-yaml udisks2"
-checkdepends="${depends} python3-pytest-xdist"
+checkdepends="${depends} python3-pytest"
 short_desc="Removable disk automounter using udisks"
-maintainer="Matthias Fulz <mfulz@olznet.de>"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="MIT"
 homepage="https://github.com/coldfix/udiskie"
 changelog="https://raw.githubusercontent.com/coldfix/udiskie/master/CHANGES.rst"
 distfiles="https://github.com/coldfix/udiskie/archive/refs/tags/v${version}.tar.gz"
-checksum=6971adaa00dcd6b799b8a0b62c47103e0ad9a3f1880112c51ccc662316d2b306
+checksum=9d758efd4e3706ce824e693708cce1e0a840dae9aa5b130e3592d3588da8279c
 make_check=ci-skip # privilege issue with keyring in container
 
 post_build() {

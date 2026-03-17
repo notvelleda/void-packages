@@ -9,7 +9,6 @@ license="GPL-2.0-only"
 homepage="http://www.kernel.org"
 distfiles="${KERNEL_SITE}/kernel/v${version%%.*}.x/linux-${version}.tar.xz"
 checksum=a294b683e7b161bb0517bb32ec7ed1d2ea7603dfbabad135170ed12d00c47670
-nocross=temporarily
 
 if [ "$CHROOT_READY" ]; then
 	hostmakedepends="perl"
@@ -21,6 +20,7 @@ case "$XBPS_TARGET_MACHINE" in
 	aarch64*) _arch="arm64";;
 	mips*) _arch="mips";;
 	ppc*) _arch="powerpc";;
+	riscv*) _arch="riscv" ;;
 	*) msg_error "$pkgname: unknown architecture.\n";;
 esac
 
